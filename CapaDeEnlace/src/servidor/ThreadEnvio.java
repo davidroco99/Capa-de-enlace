@@ -15,9 +15,20 @@ public class ThreadEnvio implements Runnable {
     private final Principal main;
     private ObjectOutputStream salida;
     private String mensaje;
+    private String mensajeEntramadoSalida;
     private Socket conexion;
     private String tasaTransferencia;
 
+    public String getMensajeEntramadoSalida() {
+        return mensajeEntramadoSalida;
+    }
+
+    public void setMensajeEntramadoSalida(String mensajeEntramadoSalida) {
+        this.mensajeEntramadoSalida = mensajeEntramadoSalida;
+    }
+
+    
+    
     public ThreadEnvio(Socket conexion, final Principal main) {
         this.conexion = conexion;
         this.main = main;
@@ -41,28 +52,38 @@ public class ThreadEnvio implements Runnable {
     //enviar objeto a cliente 
     private void enviarDatos(String mensaje) throws InterruptedException {
         try {
-            salida.writeObject("Host S => " + mensaje);
+            
+            this.setMensajeEntramadoSalida(mensaje+"//"+main.getNombreServidor()+"//"+main.getNombreCliente());
+            main.setTamanioMensaje(mensajeEntramadoSalida.length());
+            salida.writeObject("Host S => " + String.valueOf(main.getTamanioMensaje()) + mensajeEntramadoSalida);
             salida.flush(); //flush salida a cliente
             main.mostrarMensaje("Host S => " + mensaje);
+            main.mostrarMensaje("Host S => La trama total" +  String.valueOf(main.getTamanioMensaje()) + mensajeEntramadoSalida);
 
             if (mensaje.equals("tincho")) {
+                /*
                 Thread.sleep(Integer.parseInt(tasaTransferencia));
                 JOptionPane.showMessageDialog(this.main, "Se recibio mensaje duplicado", "NACK del Cliente!", JOptionPane.INFORMATION_MESSAGE);
-               
+                */
             } else {
                 if (mensaje.equals("albana")) {
+                    /*
                     Thread.sleep(Integer.parseInt(tasaTransferencia));
                     JOptionPane.showMessageDialog(this.main, "Se recibio desordenado", "NACK del Cliente!", JOptionPane.INFORMATION_MESSAGE);
-                    
+                    */
                 } else {
+                    
                     if(mensaje.equals("red")) {
+                    /*
                     Thread.sleep(Integer.parseInt(tasaTransferencia));
                     JOptionPane.showMessageDialog(this.main, "Se perdio la trama", "NACK del Cliente!", JOptionPane.INFORMATION_MESSAGE);
-                        
+                      */  
                     }else{
-                       
-                    Thread.sleep(Integer.parseInt(tasaTransferencia));
-                    JOptionPane.showMessageDialog(this.main, "Se recibio mensaje con exito", "ACK del Cliente!", JOptionPane.INFORMATION_MESSAGE);
+                      main.setAck(true);
+                      
+                      
+                  //  Thread.sleep(Integer.parseInt(tasaTransferencia));
+                  //   JOptionPane.showMessageDialog(this.main, "Se recibio mensaje con exito", "ACK del Cliente!", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
 

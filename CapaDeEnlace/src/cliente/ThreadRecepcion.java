@@ -20,6 +20,7 @@ public class ThreadRecepcion implements Runnable {
    public ThreadRecepcion(Socket cliente, Principal main){
        this.cliente = cliente;
        this.main = main;
+       
    }  
 
     public void mostrarMensaje(String mensaje) {
@@ -36,6 +37,7 @@ public class ThreadRecepcion implements Runnable {
             try {//leer el mensaje y mostrarlo 
                 
                 mensaje = (String) entrada.readObject(); //leer nuevo mensaje
+                
                 if (mensaje.equals("Host S => tincho")){
                  mensaje = "Host S =>tinchotincho";
                 }

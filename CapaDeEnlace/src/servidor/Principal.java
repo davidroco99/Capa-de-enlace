@@ -25,13 +25,49 @@ public class Principal extends JFrame{
     public JTextArea areaTexto; //Para ingresar mensaje a enviar
     private static ServerSocket servidor; //
     private static Socket conexion; //Socket para conectarse con el cliente
-    private static String ip = "192.168.33.94"; //ip a la cual se conecta
+    private static final String ip = JOptionPane.showInputDialog(Principal.main, "IP Host 1 ", "IP Host 1", JOptionPane.INFORMATION_MESSAGE); //ip a la cual se conecta
     private String tasaTransferencia;
-    
+    private boolean ack;
+    private String nombreCliente;
+    private Integer tamanioMensaje;
+    private String nombreServidor; 
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public int getTamanioMensaje() {
+        return tamanioMensaje;
+    }
+
+    public void setTamanioMensaje(int tamanioMensaje) {
+        this.tamanioMensaje = tamanioMensaje;
+    }
+
+    public String getNombreServidor() {
+        return nombreServidor;
+    }
+
+    public void setNombreServidor(String nombreServidor) {
+        this.nombreServidor = nombreServidor;
+    }
+           
+    public boolean isAck() {
+        return ack;
+    }
+
+    public void setAck(boolean ack) {
+        this.ack = ack;
+    }
+
     public static Principal main; 
     
     public Principal(){
-        super("REDES 2017  Host:      Servidor"); //Establece titulo al Frame
+        super("REDES 2017  Host Servidor"); //Establece titulo al Frame
         
         campoTexto = new JTextField(); //crea el campo para texto
         campoTexto.setEditable(false); //No permite que sea editable el campo de texto
@@ -97,7 +133,9 @@ public class Principal extends JFrame{
 
                     //main.mostrarMensaje("Conexion Establecida");
                     main.mostrarMensaje("Conectado a : " + conexion.getInetAddress().getHostName());
-
+                    main.setNombreCliente(conexion.getInetAddress().getHostAddress());
+                    main.setNombreServidor(conexion.getLocalAddress().getHostAddress());
+                    
                     main.habilitarTexto(true); //permite escribir texto para enviar
 
                     //Ejecucion de los threads
