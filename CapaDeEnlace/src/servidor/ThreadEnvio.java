@@ -21,7 +21,7 @@ public class ThreadEnvio implements Runnable {
     public ThreadEnvio(Socket conexion, final Principal main) {
         this.conexion = conexion;
         this.main = main;
-        tasaTransferencia = JOptionPane.showInputDialog(this.main, "La tasa del Cliente es 2000 MB/m, ingrese valor: ", "Tasa de transferencia", JOptionPane.INFORMATION_MESSAGE);
+        //tasaTransferencia = JOptionPane.showInputDialog(this.main, "La tasa del Cliente es 2000 MB/m, ingrese valor: ", "Tasa de transferencia", JOptionPane.INFORMATION_MESSAGE);
 
         //Evento que ocurre al escribir en el areaTexto
         main.campoTexto.addActionListener(new ActionListener() {
