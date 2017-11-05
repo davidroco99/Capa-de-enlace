@@ -15,7 +15,18 @@ public class ThreadEnvio implements Runnable {
     private ObjectOutputStream salida;
     private String mensaje;
     private Socket conexion; 
-   
+    private String mensajeEntramadoSalida;
+    private String tasaTransferencia;
+
+    public String getMensajeEntramadoSalida() {
+        return mensajeEntramadoSalida;
+    }
+
+    public void setMensajeEntramadoSalida(String mensajeEntramadoSalida) {
+        this.mensajeEntramadoSalida = mensajeEntramadoSalida;
+    }
+    
+    
     public ThreadEnvio(Socket conexion, final Principal main){
         this.conexion = conexion;
         this.main = main;
@@ -39,11 +50,17 @@ public class ThreadEnvio implements Runnable {
    //enviar objeto a cliente 
    private void enviarDatos(String mensaje) throws InterruptedException{
       try {
-         salida.writeObject("Cliente => " + mensaje);
+         
+         this.setMensajeEntramadoSalida(mensaje+"/"+main.getNombreServidor()+"/"+main.getNombreCliente());
+         main.setTamanioMensaje(mensajeEntramadoSalida.length());
+         salida.writeObject("Host C => /"+ String.valueOf(main.getTamanioMensaje()) + "/" + mensajeEntramadoSalida);
+         
          salida.flush(); //flush salida a cliente
-         Thread.sleep(1500);
-         JOptionPane.showMessageDialog(this.main, "Se recibio mensaje con exito", "ACK del Servidor!", JOptionPane.INFORMATION_MESSAGE);
-         main.mostrarMensaje("Cliente => " + mensaje);
+         main.mostrarMensaje("-------------------------------------");              
+         main.mostrarMensaje("Host C => " + mensaje);
+         main.mostrarMensaje("La trama que se envio: " +  String.valueOf(main.getTamanioMensaje())+"/" + mensajeEntramadoSalida);
+ 
+         
       } //Fin try
       catch (IOException ioException){ 
          main.mostrarMensaje("Error escribiendo Mensaje");

@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class ThreadRecepcion implements Runnable {
@@ -14,12 +15,14 @@ public class ThreadRecepcion implements Runnable {
     private String mensaje; 
     private ObjectInputStream entrada;
     private Socket cliente;
-   
+    private String separador;
+    private String[] trama;
     
    //Inicializar chatServer y configurar GUI
    public ThreadRecepcion(Socket cliente, Principal main){
        this.cliente = cliente;
        this.main = main;
+       this.separador = Pattern.quote("/");
    }  
 
     public void mostrarMensaje(String mensaje) {
@@ -35,7 +38,17 @@ public class ThreadRecepcion implements Runnable {
         do { //procesa los mensajes enviados dsd el servidor
             try {//leer el mensaje y mostrarlo 
                 mensaje = (String) entrada.readObject(); //leer nuevo mensaje
+                
+                String[] trama = mensaje.split(separador);
+                
+                main.mostrarMensaje("-------------------------------------");              
                 main.mostrarMensaje(mensaje);
+                main.mostrarMensaje("Tamaño del mensaje: "+ trama[1]);
+                main.mostrarMensaje("Mensaje: "+ trama[2]);
+                main.mostrarMensaje("IP Origen: "+ trama[3]);
+                main.mostrarMensaje("IP Destinatario: "+ trama[4]);                
+                
+                
             } //fin try
             catch (SocketException ex) {
             }

@@ -106,7 +106,7 @@ public class Principal extends JFrame{
                 }
         });
         
-        setSize(400, 440); //Establecer tamano a ventana
+        setSize(600, 440); //Establecer tamano a ventana
         setVisible(true); //Pone visible la ventana
     }
     

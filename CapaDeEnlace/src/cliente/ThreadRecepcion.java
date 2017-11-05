@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class ThreadRecepcion implements Runnable {
@@ -14,12 +15,14 @@ public class ThreadRecepcion implements Runnable {
     private String mensaje; 
     private ObjectInputStream entrada;
     private Socket cliente;
-   
+    private String separador;
+    private String[] trama;
     
    //Inicializar chatServer y configurar GUI
    public ThreadRecepcion(Socket cliente, Principal main){
        this.cliente = cliente;
        this.main = main;
+       this.separador = Pattern.quote("/");
        
    }  
 
@@ -38,6 +41,17 @@ public class ThreadRecepcion implements Runnable {
                 
                 mensaje = (String) entrada.readObject(); //leer nuevo mensaje
                 
+                String[] trama = mensaje.split(separador);
+                
+                main.mostrarMensaje("-------------------------------------");              
+                main.mostrarMensaje(mensaje);
+                main.mostrarMensaje("Tamaño del mensaje: "+ trama[1]);
+                main.mostrarMensaje("Mensaje: "+ trama[2]);
+                main.mostrarMensaje("IP Origen: "+ trama[3]);
+                main.mostrarMensaje("IP Destinatario: "+ trama[4]);                
+              
+                /*
+                
                 if (mensaje.equals("Host S => tincho")){
                  mensaje = "Host S =>tinchotincho";
                 }
@@ -49,7 +63,7 @@ public class ThreadRecepcion implements Runnable {
                  mensaje = "Host S =>";   
                 }    
                 main.mostrarMensaje(mensaje);
-                /*
+                
                 if (mensaje.equals("Host S =>tinchotincho")){
                     Thread.sleep(1500);
                     JOptionPane.showMessageDialog(this.main, "Mensaje duplicado", "Alerta", JOptionPane.INFORMATION_MESSAGE);
