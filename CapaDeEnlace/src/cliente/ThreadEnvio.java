@@ -56,7 +56,7 @@ public class ThreadEnvio implements Runnable {
          salida.writeObject("Host C => /"+ String.valueOf(main.getTamanioMensaje()) + "/" + mensajeEntramadoSalida);
          
          salida.flush(); //flush salida a cliente
-         main.mostrarMensaje("-------------------------------------");              
+         main.mostrarMensaje("-------------------------------------Envio-------------------------------------");              
          main.mostrarMensaje("Host C => " + mensaje);
          main.mostrarMensaje("La trama que se envio: " +  String.valueOf(main.getTamanioMensaje())+"/" + mensajeEntramadoSalida);
  

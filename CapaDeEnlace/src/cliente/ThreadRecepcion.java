@@ -43,7 +43,7 @@ public class ThreadRecepcion implements Runnable {
                 
                 String[] trama = mensaje.split(separador);
                 
-                main.mostrarMensaje("-------------------------------------");              
+                main.mostrarMensaje("-------------------------------------Recepcion-------------------------------------");              
                 main.mostrarMensaje(mensaje);
                 main.mostrarMensaje("Tamaño del mensaje: "+ trama[1]);
                 main.mostrarMensaje("Mensaje: "+ trama[2]);
