@@ -25,9 +25,54 @@ public class Principal extends JFrame{
     public JTextArea areaTexto; //Para ingresar mensaje a enviar
     private static ServerSocket servidor; //
     private static Socket cliente; //Socket para conectarse con el cliente
-    private static String ip = "127.0.0.1"; //ip a la cual se conecta
-    
+    private static final String ip = JOptionPane.showInputDialog(Principal.main, "IP Host 1 ", "IP Host 1", JOptionPane.INFORMATION_MESSAGE); //ip a la cual se conecta
     public static Principal main; 
+    private String tasaTransferencia;
+    private boolean ack;
+    private String nombreCliente;
+    private Integer tamanioMensaje;
+    private String nombreServidor;
+
+    public String getTasaTransferencia() {
+        return tasaTransferencia;
+    }
+
+    public void setTasaTransferencia(String tasaTransferencia) {
+        this.tasaTransferencia = tasaTransferencia;
+    }
+
+    public boolean isAck() {
+        return ack;
+    }
+
+    public void setAck(boolean ack) {
+        this.ack = ack;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public Integer getTamanioMensaje() {
+        return tamanioMensaje;
+    }
+
+    public void setTamanioMensaje(Integer tamanioMensaje) {
+        this.tamanioMensaje = tamanioMensaje;
+    }
+
+    public String getNombreServidor() {
+        return nombreServidor;
+    }
+
+    public void setNombreServidor(String nombreServidor) {
+        this.nombreServidor = nombreServidor;
+    }
+    
     
     public Principal(){
         super("REDES 2017  Host:      Cliente"); //Establece titulo al Frame
@@ -86,7 +131,11 @@ public class Principal extends JFrame{
             main.mostrarMensaje("Buscando Servidor ...");
             cliente = new Socket(InetAddress.getByName(ip), 11111); //comunicarme con el servidor
             main.mostrarMensaje("Conectado a :" + cliente.getInetAddress().getHostName());
-    
+            
+            main.setNombreCliente(cliente.getInetAddress().getHostAddress());
+            main.setNombreServidor(cliente.getLocalAddress().getHostAddress());
+                    
+            
             main.habilitarTexto(true); //habilita el texto
             
             //Ejecucion de los Threads

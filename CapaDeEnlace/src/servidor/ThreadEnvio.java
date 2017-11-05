@@ -53,12 +53,12 @@ public class ThreadEnvio implements Runnable {
     private void enviarDatos(String mensaje) throws InterruptedException {
         try {
             
-            this.setMensajeEntramadoSalida(mensaje+"//"+main.getNombreServidor()+"//"+main.getNombreCliente());
+            this.setMensajeEntramadoSalida(mensaje+"/"+main.getNombreServidor()+"/"+main.getNombreCliente());
             main.setTamanioMensaje(mensajeEntramadoSalida.length());
-            salida.writeObject("Host S => " + String.valueOf(main.getTamanioMensaje()) + mensajeEntramadoSalida);
+            salida.writeObject("Host S => " + String.valueOf(main.getTamanioMensaje()) + "/" + mensajeEntramadoSalida);
             salida.flush(); //flush salida a cliente
             main.mostrarMensaje("Host S => " + mensaje);
-            main.mostrarMensaje("Host S => La trama total" +  String.valueOf(main.getTamanioMensaje()) + mensajeEntramadoSalida);
+            main.mostrarMensaje("Host S => La trama que se envio: " +  String.valueOf(main.getTamanioMensaje()) + mensajeEntramadoSalida);
 
             if (mensaje.equals("tincho")) {
                 /*
