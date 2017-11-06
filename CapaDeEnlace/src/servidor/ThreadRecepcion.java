@@ -3,6 +3,7 @@ package servidor;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
@@ -11,24 +12,26 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class ThreadRecepcion implements Runnable {
+
     private final Principal main;
-    private String mensaje; 
+    private String mensaje;
     private ObjectInputStream entrada;
-    private Socket cliente;
-    private String separador;
+    private final Socket cliente;
+    private final String separador;
     private String[] trama;
-    
-   //Inicializar chatServer y configurar GUI
-   public ThreadRecepcion(Socket cliente, Principal main){
-       this.cliente = cliente;
-       this.main = main;
-       this.separador = Pattern.quote("/");
-   }  
+    private ObjectOutputStream salida;
+    //Inicializar chatServer y configurar GUI
+
+    public ThreadRecepcion(Socket cliente, Principal main) {
+        this.cliente = cliente;
+        this.main = main;
+        this.separador = Pattern.quote("/");
+    }
 
     public void mostrarMensaje(String mensaje) {
         main.areaTexto.append(mensaje);
-    } 
-   
+    }
+
     public void run() {
         try {
             entrada = new ObjectInputStream(cliente.getInputStream());
@@ -38,21 +41,36 @@ public class ThreadRecepcion implements Runnable {
         do { //procesa los mensajes enviados dsd el servidor
             try {//leer el mensaje y mostrarlo 
                 mensaje = (String) entrada.readObject(); //leer nuevo mensaje
-                
-                String[] trama = mensaje.split(separador);
-                
-                main.mostrarMensaje("-------------------------------------");              
-                main.mostrarMensaje(mensaje);
-                main.mostrarMensaje("Tamaño del mensaje: "+ trama[1]);
-                main.mostrarMensaje("Mensaje: "+ trama[2]);
-                main.mostrarMensaje("IP Origen: "+ trama[3]);
-                main.mostrarMensaje("IP Destinatario: "+ trama[4]);                
-                
-                
+
+                if (mensaje.equals("ACK")) {
+                    main.mostrarMensaje("-------------------------------------Recepcion-------------------------------------");
+                    main.mostrarMensaje(mensaje);
+                } else {
+
+                    String[] trama = mensaje.split(separador);
+
+                    main.mostrarMensaje("-------------------------------------Recepcion-------------------------------------");
+                    main.mostrarMensaje(mensaje);
+                    main.mostrarMensaje("Tamaño del mensaje: " + trama[1]);
+                    main.mostrarMensaje("Mensaje: " + trama[2]);
+                    main.mostrarMensaje("IP Origen: " + trama[3]);
+                    main.mostrarMensaje("IP Destinatario: " + trama[4]);
+                    if ((trama[4].equals(main.getNombreCliente())) && trama[3].equals(main.getNombreServidor())) {
+                        try {
+                            
+                            salida.writeObject("ACK");
+                            salida.flush(); //flush salida a cliente
+
+                        } //Fin try
+                        catch (IOException ioException) {
+                            main.mostrarMensaje("Error escribiendo Mensaje");
+                        } //Fin catch  
+                    }
+                }
+
             } //fin try
             catch (SocketException ex) {
-            }
-            catch (EOFException eofException) {
+            } catch (EOFException eofException) {
                 main.mostrarMensaje("Fin de la conexion");
                 break;
             } //fin catch
@@ -74,5 +92,5 @@ public class ThreadRecepcion implements Runnable {
 
         main.mostrarMensaje("Fin de la conexion");
         System.exit(0);
-    } 
-} 
+    }
+}

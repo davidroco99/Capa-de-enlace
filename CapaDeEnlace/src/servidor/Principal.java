@@ -67,12 +67,11 @@ public class Principal extends JFrame{
     public static Principal main; 
     
     public Principal(){
-        super("REDES 2017  Host Servidor"); //Establece titulo al Frame
+        super("REDES 2017  Host:      Servidor "); //Establece titulo al Frame
         
         campoTexto = new JTextField(); //crea el campo para texto
         campoTexto.setEditable(false); //No permite que sea editable el campo de texto
         add(campoTexto, BorderLayout.NORTH); //Coloca el campo de texto en la parte superior
-        
         
         areaTexto = new JTextArea(); //Crear displayArea
         areaTexto.setEditable(false);
@@ -80,7 +79,6 @@ public class Principal extends JFrame{
         areaTexto.setBackground(Color.DARK_GRAY); //Pone de color gris al areaTexto
         areaTexto.setForeground(Color.WHITE); //pinta negro la letra en el areaTexto
         campoTexto.setForeground(Color.blue); //pinta azul la letra del mensaje a enviar
-        
         
         //Crea menu Archivo y submenu Salir, ademas agrega el submenu al menu
         JMenu menuArchivo = new JMenu("Archivo"); 
