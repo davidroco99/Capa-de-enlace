@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 public class ThreadRecepcion implements Runnable {
 
@@ -60,6 +61,10 @@ public class ThreadRecepcion implements Runnable {
                     main.mostrarMensaje("IP Destinatario: " + trama[4]);
 
                     if ((trama[4].equals(main.getNombreCliente())) && trama[3].equals(main.getNombreServidor())) {
+                        
+                        JOptionPane.showMessageDialog(this.main, "ENVIO ACK", "Se va enviar ACK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                        
                         /*
                         try {
                             
@@ -77,11 +82,12 @@ public class ThreadRecepcion implements Runnable {
 
                 }
 
-                /*
+                
                 
                 if (mensaje.equals("Host S => tincho")){
                  mensaje = "Host S =>tinchotincho";
                 }
+                /*
                 if (mensaje.equals("Host S => albana")){
                  mensaje = "Host S =>alanab";
                 
@@ -126,5 +132,6 @@ public class ThreadRecepcion implements Runnable {
         main.mostrarMensaje("Fin de la conexion");
         System.exit(0);
     }
+
 
 }

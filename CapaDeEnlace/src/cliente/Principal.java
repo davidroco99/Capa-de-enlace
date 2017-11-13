@@ -126,7 +126,7 @@ public class Principal extends JFrame{
         Principal main = new Principal(); //Instanciacion de la clase Principalchat
         main.setLocationRelativeTo(null);   //Centrar el JFrame
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //habilita cerrar la ventana
-        ExecutorService executor = Executors.newCachedThreadPool(); //Para correr los threads
+        ExecutorService executor = Executors.newFixedThreadPool(2); //Para correr los threads
  
         try {
             main.mostrarMensaje("Buscando Servidor ...");

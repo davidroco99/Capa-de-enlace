@@ -48,7 +48,7 @@ public class ThreadEnvio implements Runnable {
     } 
     
    //enviar objeto a cliente 
-   private void enviarDatos(String mensaje) throws InterruptedException{
+   public void enviarDatos(String mensaje) throws InterruptedException{
       try {
          
          this.setMensajeEntramadoSalida(mensaje+"/"+main.getNombreServidor()+"/"+main.getNombreCliente());

@@ -58,6 +58,8 @@ public class ThreadRecepcion implements Runnable {
                     main.mostrarMensaje("IP Origen: " + trama[3]);
                     main.mostrarMensaje("IP Destinatario: " + trama[4]);
                     if ((trama[4].equals(main.getNombreCliente())) && trama[3].equals(main.getNombreServidor())) {
+                        JOptionPane.showMessageDialog(this.main, "ENVIO ACK", "Se va enviar ACK", JOptionPane.INFORMATION_MESSAGE);
+                   
                         /*
                         try {
                             
