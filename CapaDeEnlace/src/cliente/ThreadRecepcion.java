@@ -41,8 +41,10 @@ public class ThreadRecepcion implements Runnable {
         do { //procesa los mensajes enviados desde el servidor
             try {//leer el mensaje y mostrarlo 
 
-                mensaje = (String) entrada.readObject(); //leer nuevo mensaje
+                
+                mensaje = (String) String.valueOf(entrada.readObject()); //leer nuevo mensaje
 
+                
                 if (mensaje.equals("ACK")) {
                     main.mostrarMensaje("-------------------------------------Recepcion-------------------------------------");
                     main.mostrarMensaje(mensaje);
@@ -58,15 +60,19 @@ public class ThreadRecepcion implements Runnable {
                     main.mostrarMensaje("IP Destinatario: " + trama[4]);
 
                     if ((trama[4].equals(main.getNombreCliente())) && trama[3].equals(main.getNombreServidor())) {
+                        /*
                         try {
                             
-                            salida.writeObject("ACK");
+                            salida = new ObjectOutputStream(cliente.getOutputStream());
+                            mensaje = "ACK";
+                            salida.writeObject(mensaje);
                             salida.flush(); //flush salida a cliente
-
+                            
+                            
                         } //Fin try
                         catch (IOException ioException) {
                             main.mostrarMensaje("Error escribiendo Mensaje");
-                        } //Fin catch  
+                        } //Fin catch  */
                     }
 
                 }
@@ -94,6 +100,7 @@ public class ThreadRecepcion implements Runnable {
                     JOptionPane.showMessageDialog(this.main, "Mensaje desordenado", "Alerta", JOptionPane.INFORMATION_MESSAGE);
                 }*/
             } //fin try
+            
             catch (SocketException ex) {
             } catch (EOFException eofException) {
                 main.mostrarMensaje("Fin de la conexion");

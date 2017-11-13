@@ -14,7 +14,7 @@ public class ThreadEnvio implements Runnable {
     private final Principal main; 
     private ObjectOutputStream salida;
     private String mensaje;
-    private Socket conexion; 
+    private final Socket conexion; 
     private String mensajeEntramadoSalida;
     private String tasaTransferencia;
 

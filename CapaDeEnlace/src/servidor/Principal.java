@@ -25,7 +25,8 @@ public class Principal extends JFrame{
     public JTextArea areaTexto; //Para ingresar mensaje a enviar
     private static ServerSocket servidor; //
     private static Socket conexion; //Socket para conectarse con el cliente
-    private static final String ip = JOptionPane.showInputDialog(Principal.main, "IP Host 1 ", "IP Host 1", JOptionPane.INFORMATION_MESSAGE); //ip a la cual se conecta
+    private static final String ip = "127.0.0.1";
+    //private static final String ip = JOptionPane.showInputDialog(Principal.main, "IP Host 1 ", "IP Host 1", JOptionPane.INFORMATION_MESSAGE); //ip a la cual se conecta
     private String tasaTransferencia;
     private boolean ack;
     private String nombreCliente;
