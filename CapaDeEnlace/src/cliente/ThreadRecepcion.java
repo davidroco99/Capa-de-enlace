@@ -1,5 +1,7 @@
 package cliente;
 
+import java.awt.Event;
+import java.awt.event.ActionListener;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,6 +11,7 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 
 public class ThreadRecepcion implements Runnable {
@@ -20,7 +23,8 @@ public class ThreadRecepcion implements Runnable {
     private final Socket cliente;
     private final String separador;
     private String[] trama;
-
+    private String ack;
+    private ActionMap l;
     //Inicializar chatServer y configurar GUI
     public ThreadRecepcion(Socket cliente, Principal main) {
         this.cliente = cliente;
@@ -29,6 +33,7 @@ public class ThreadRecepcion implements Runnable {
 
     }
 
+    
     public void mostrarMensaje(String mensaje) {
         main.areaTexto.append(mensaje);
     }
@@ -52,7 +57,20 @@ public class ThreadRecepcion implements Runnable {
                 } else {
 
                     String[] trama = mensaje.split(separador);
-
+                    
+                     if (trama[2].equals("tincho")){
+                 
+                    mensaje = "Host S =>tinchotincho";
+                    main.mostrarMensaje("-------------------------------------Recepcion-------------------------------------");
+                    main.mostrarMensaje(mensaje);
+                    trama[2] = "tinchotincho";
+                    Thread.sleep(1000);
+                    JOptionPane.showMessageDialog(this.main, "Mensaje Duplicado", "NACK", JOptionPane.INFORMATION_MESSAGE);
+                   
+                }else{
+                    
+                         
+                    
                     main.mostrarMensaje("-------------------------------------Recepcion-------------------------------------");
                     main.mostrarMensaje(mensaje);
                     main.mostrarMensaje("Tamaño del mensaje: " + trama[1]);
@@ -61,9 +79,18 @@ public class ThreadRecepcion implements Runnable {
                     main.mostrarMensaje("IP Destinatario: " + trama[4]);
 
                     if ((trama[4].equals(main.getNombreCliente())) && trama[3].equals(main.getNombreServidor())) {
-                        
+                       
+                        ack = "ACK";
+                        main.campoTexto.setText(ack);
                         JOptionPane.showMessageDialog(this.main, "ENVIO ACK", "Se va enviar ACK", JOptionPane.INFORMATION_MESSAGE);
-                   
+                     
+                        ThreadEnvio.getInstance(cliente, main).enviarDatos(ack);
+                        
+                       
+                    } else {
+                        Thread.sleep(1000);
+                        JOptionPane.showMessageDialog(this.main, "IP conexion Fail", "Se va enviar NACK", JOptionPane.INFORMATION_MESSAGE);
+                    }
                         
                         /*
                         try {
@@ -83,10 +110,7 @@ public class ThreadRecepcion implements Runnable {
                 }
 
                 
-                
-                if (mensaje.equals("Host S => tincho")){
-                 mensaje = "Host S =>tinchotincho";
-                }
+               
                 /*
                 if (mensaje.equals("Host S => albana")){
                  mensaje = "Host S =>alanab";
@@ -116,8 +140,9 @@ public class ThreadRecepcion implements Runnable {
                 Logger.getLogger(ThreadRecepcion.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException classNotFoundException) {
                 main.mostrarMensaje("Objeto desconocido");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ThreadRecepcion.class.getName()).log(Level.SEVERE, null, ex);
             }    //fin catch
-            //fin catch               
 
         } while (!mensaje.equals("Cliente>>> TERMINATE")); //Ejecuta hasta que el server escriba TERMINATE
 

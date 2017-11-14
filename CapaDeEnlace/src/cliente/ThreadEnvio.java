@@ -17,7 +17,15 @@ public class ThreadEnvio implements Runnable {
     private final Socket conexion; 
     private String mensajeEntramadoSalida;
     private String tasaTransferencia;
-
+    private static ThreadEnvio instance;
+    
+   public static ThreadEnvio getInstance(Socket conexion, final Principal main){
+       if(instance==null){
+           instance= new ThreadEnvio(conexion, main);
+       }
+       return instance;
+   }
+    
     public String getMensajeEntramadoSalida() {
         return mensajeEntramadoSalida;
     }
@@ -58,7 +66,7 @@ public class ThreadEnvio implements Runnable {
          main.mostrarMensaje("-------------------------------------Envio-------------------------------------");              
          main.mostrarMensaje("Host C => " + mensaje);
          main.mostrarMensaje("La trama que se envio: FF/" +  String.valueOf(main.getTamanioMensaje())+"/" + mensajeEntramadoSalida+ "/FF");
- 
+         
          
       } //Fin try
       catch (IOException ioException){ 
@@ -75,7 +83,8 @@ public class ThreadEnvio implements Runnable {
     public void run() {
          try {
             salida = new ObjectOutputStream(conexion.getOutputStream());
-            salida.flush(); 
+            salida.flush();
+            
         } catch (SocketException ex) {
         } catch (IOException ioException) {
           ioException.printStackTrace();

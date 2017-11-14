@@ -42,14 +42,16 @@ public class ThreadRecepcion implements Runnable {
             try {//leer el mensaje y mostrarlo 
 
                 mensaje = (String) String.valueOf(entrada.readObject()); //leer nuevo mensaje
+                
+                String[] trama = mensaje.split(separador);
 
-                if (mensaje.equals("ACK")) {
+                if (trama[2].equals("ACK")) {
                     main.mostrarMensaje("-------------------------------------Recepcion-------------------------------------");
                     main.mostrarMensaje(mensaje);
                     
                 } else {
 
-                    String[] trama = mensaje.split(separador);
+                   
 
                     main.mostrarMensaje("-------------------------------------Recepcion-------------------------------------");
                     main.mostrarMensaje(mensaje);
@@ -58,8 +60,10 @@ public class ThreadRecepcion implements Runnable {
                     main.mostrarMensaje("IP Origen: " + trama[3]);
                     main.mostrarMensaje("IP Destinatario: " + trama[4]);
                     if ((trama[4].equals(main.getNombreCliente())) && trama[3].equals(main.getNombreServidor())) {
-                        JOptionPane.showMessageDialog(this.main, "ENVIO ACK", "Se va enviar ACK", JOptionPane.INFORMATION_MESSAGE);
-                   
+                       
+                    //Thread.sleep(2000);
+                    //JOptionPane.showMessageDialog(this.main, "ENVIO ACK", "Se va enviar ACK", JOptionPane.INFORMATION_MESSAGE);
+                    
                         /*
                         try {
                             
@@ -83,9 +87,11 @@ public class ThreadRecepcion implements Runnable {
             } //fin catch
             catch (IOException ex) {
                 Logger.getLogger(ThreadRecepcion.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException classNotFoundException) {
+            }catch (ClassNotFoundException classNotFoundException) {
                 main.mostrarMensaje("Objeto desconocido");
-            } //fin catch               
+            }
+            //fin catch
+             //fin catch               
 
         } while (!mensaje.equals("Servidor => TERMINATE")); //Ejecuta hasta que el server escriba TERMINATE
 

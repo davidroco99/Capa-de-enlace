@@ -5,8 +5,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/opt/lampp/htdocs/capa%20de%20enlace%20con%20git/Capa-de-enlace/CapaDeEnlace/src/cliente/Principal.java</file>
-            <file>file:/opt/lampp/htdocs/capa%20de%20enlace%20con%20git/Capa-de-enlace/CapaDeEnlace/src/cliente/ThreadEnvioACK.java</file>
+            <file>file:/opt/lampp/htdocs/capa%20de%20enlace%20con%20git/Capa-de-enlace/CapaDeEnlace/src/servidor/Principal.java</file>
+            <file>file:/opt/lampp/htdocs/capa%20de%20enlace%20con%20git/Capa-de-enlace/CapaDeEnlace/src/servidor/ThreadEnvio.java</file>
             <file>file:/opt/lampp/htdocs/capa%20de%20enlace%20con%20git/Capa-de-enlace/CapaDeEnlace/src/cliente/ThreadEnvio.java</file>
+            <file>file:/opt/lampp/htdocs/capa%20de%20enlace%20con%20git/Capa-de-enlace/CapaDeEnlace/src/servidor/ThreadRecepcion.java</file>
             <file>file:/opt/lampp/htdocs/capa%20de%20enlace%20con%20git/Capa-de-enlace/CapaDeEnlace/src/cliente/ThreadRecepcion.java</file>
         </group>
     </open-files>

@@ -33,7 +33,10 @@ public class Principal extends JFrame{
     private String nombreCliente;
     private Integer tamanioMensaje;
     private String nombreServidor;
-
+    public Thread envio;
+    public Thread recepcion;
+    
+    
     public String getTasaTransferencia() {
         return tasaTransferencia;
     }
@@ -79,7 +82,7 @@ public class Principal extends JFrame{
         super("REDES 2017  Host:      Cliente"); //Establece titulo al Frame
  
         campoTexto = new JTextField(); //crea el campo para texto
-        campoTexto.setEditable(false); //No permite que sea editable el campo de texto
+        campoTexto.setEditable(true); //No permite que sea editable el campo de texto
         add(campoTexto, BorderLayout.NORTH); //Coloca el campo de texto en la parte superior
         
         
@@ -123,6 +126,7 @@ public class Principal extends JFrame{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+                
         Principal main = new Principal(); //Instanciacion de la clase Principalchat
         main.setLocationRelativeTo(null);   //Centrar el JFrame
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //habilita cerrar la ventana
@@ -141,7 +145,9 @@ public class Principal extends JFrame{
             
             //Ejecucion de los Threads
             executor.execute(new ThreadRecepcion(cliente, main));
-            executor.execute(new ThreadEnvio(cliente, main)); 
+            
+            
+            executor.execute(ThreadEnvio.getInstance(cliente, main)); 
             
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
